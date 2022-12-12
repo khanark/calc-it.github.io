@@ -9,9 +9,17 @@ class Calculator {
     this.currentOperand = this.currentOperand.toString() + number.toString();
   }
 
+  displayNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   updateDisplay() {
-    this.currentTextElement.textContent = this.currentOperand;
-    this.previousTextElement.textContent = this.previousOperand;
+    this.currentTextElement.textContent = this.displayNumber(this.currentOperand);
+    if (this.operator != null) {
+      this.previousTextElement.textContent = `${this.displayNumber(this.previousOperand)} ${this.operator}`;
+    } else {
+      this.previousTextElement.textContent = this.displayNumber(this.previousOperand)
+    }
   }
 
   clear() {
@@ -19,8 +27,6 @@ class Calculator {
     this.previousOperand = '';
     this.operator = undefined;
   }
-
-  delete() {}
 
   chooseOperation(operation) {
     if (!this.currentOperand) return;
@@ -53,9 +59,9 @@ class Calculator {
       default:
         return;
     }
-    this.previousOperand = result;
+    this.currentOperand = result;
     this.operator = undefined;
-    this.currentOperand = '';
+    this.previousOperand = '';
   }
 }
 
