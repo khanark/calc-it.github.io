@@ -23,4 +23,5 @@ document.querySelector('.wrapper').addEventListener('click', e => {
   }
   
   calculator.updateDisplay();
+  console.log(calculator)
 });

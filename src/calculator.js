@@ -6,11 +6,14 @@ class Calculator {
   }
 
   appendNumber(number) {
+    if (typeof this.currentOperand == 'number') {
+      this.currentOperand = '';
+    }
     this.currentOperand = this.currentOperand.toString() + number.toString();
   }
 
   displayNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   updateDisplay() {
@@ -18,7 +21,7 @@ class Calculator {
     if (this.operator != null) {
       this.previousTextElement.textContent = `${this.displayNumber(this.previousOperand)} ${this.operator}`;
     } else {
-      this.previousTextElement.textContent = this.displayNumber(this.previousOperand)
+      this.previousTextElement.textContent = this.displayNumber(this.previousOperand);
     }
   }
 
@@ -29,6 +32,9 @@ class Calculator {
   }
 
   chooseOperation(operation) {
+    if (operation == '-' && typeof this.currentOperand !== "number" && (!this.currentOperand.includes('-') && !this.currentOperand)) {
+      return this.appendNumber(operation);
+    }
     if (!this.currentOperand) return;
     if (this.previousOperand) {
       this.compute();
