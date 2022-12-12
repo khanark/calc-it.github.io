@@ -1,22 +1,27 @@
 import Calculator from './src/calculator.js';
 
-const result = document.getElementById("result")
-const calculator = new Calculator();
+const prevousResultTextElement = document.querySelector('.prevous-result');
+const currentResultTextElement = document.querySelector('.current-result');
 
-document.querySelector('.wrapper').addEventListener('click', ev => {
-  const { target } = ev;
-  if (target.nodeName !== 'BUTTON') {
+const calculator = new Calculator(prevousResultTextElement, currentResultTextElement);
+
+document.querySelector('.wrapper').addEventListener('click', e => {
+  if (e.target.nodeName !== 'BUTTON') {
     return;
   }
-  const { value } = target;
+
+  const { value } = e.target;
 
   if (!isNaN(value)) {
-    result.value += value
-    calculator.current += value;
+    calculator.appendNumber(value);
+  } else if (value == "equals") {
+    calculator.compute()
+  } else if(value == "clears") {
+    calculator.clear()
   } else {
-    calculator.calculate();
-    calculator.operator = value;
+    calculator.chooseOperation(value);
   }
-
-  console.log(calculator);
+  
+  calculator.updateDisplay();
+  console.log(calculator)
 });
